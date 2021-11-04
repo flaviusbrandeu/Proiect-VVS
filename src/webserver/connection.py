@@ -1,6 +1,7 @@
 class Connection:
-    def __init__(self, connection):
+    def __init__(self, connection, root_directory):
         self.socket_connection = connection
+        self.root_directory = root_directory
 
     def handle_request(self):
         raise NotImplementedError()
