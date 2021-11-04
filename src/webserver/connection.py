@@ -1,7 +1,11 @@
+from src.webserver.webserver import State
+
+
 class Connection:
-    def __init__(self, connection, root_directory):
+    def __init__(self, connection, root_directory, server_state: State):
         self.socket_connection = connection
         self.root_directory = root_directory
+        self.server_state = server_state
 
     def handle_request(self):
         raise NotImplementedError()
