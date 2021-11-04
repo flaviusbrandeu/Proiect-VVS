@@ -1,6 +1,6 @@
 class Connection:
     def __init__(self, connection):
-        self.connection = connection
+        self.socket_connection = connection
 
     def handle_request(self):
         raise NotImplementedError()
@@ -9,7 +9,7 @@ class Connection:
         # TODO: implement __get_request_header
         pass
 
-    def __get_requested_resource_path(self) -> str:
+    def __get_requested_resource_path(self, header: str) -> str:
         # TODO: implement __get_requested_resource_path
         pass
 
