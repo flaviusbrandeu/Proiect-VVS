@@ -21,7 +21,7 @@ class TestFilesystem:
         assert path_to_resource == "/webserver/root/folder/a/b/c.html"
 
     @patch('os.path.isfile')
-    def get_resource_first_level(self, m_isfile):
+    def test_get_resource_first_level(self, m_isfile):
         m_isfile.return_value = True
         filesystem = Filesystem("/webserver/root/folder", "index.html", State.RUNNING,
                                 "maintenance.html", "404.html")
