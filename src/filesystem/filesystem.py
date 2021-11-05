@@ -6,5 +6,5 @@ class Filesystem:
         self.maintenance_page = maintenance_page
         self.resource_not_found_page = resource_not_found_page
 
-    def get_resource_absolute_path(self, resource):
+    def get_resource_path(self, resource):
         raise NotImplementedError()
