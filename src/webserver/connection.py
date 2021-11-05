@@ -3,10 +3,14 @@ from src.webserver.webserver import State
 
 
 class Connection:
-    def __init__(self, connection, root_directory, server_state: State):
+    def __init__(self, connection, root_directory, server_state: State,
+                 default_page, not_found_page, maintenance_page):
         self.socket_connection = connection
         self.root_directory = root_directory
         self.server_state = server_state
+        self.default_page = default_page
+        self.not_found_page = not_found_page
+        self.maintenance_page = maintenance_page
 
     def handle_request(self):
         raise NotImplementedError()
