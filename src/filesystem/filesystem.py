@@ -1,5 +1,5 @@
 class Filesystem:
-    def __init__(self, root, default_page: str, server_state: str, maintenance_page: str,
+    def __init__(self, root: str, default_page: str, server_state: State, maintenance_page: str,
                  resource_not_found_page: str) -> str:
         self.root = root
         self.default_page = default_page
