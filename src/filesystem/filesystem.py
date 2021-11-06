@@ -3,13 +3,13 @@ from src.webserver.webserver import State
 
 
 class Filesystem:
-    def __init__(self, root: str, default_page: str, server_state: State, maintenance_page: str,
-                 resource_not_found_page: str) -> str:
+    def __init__(self, root: str, default_page_path: str, server_state: State, maintenance_page_path: str,
+                 resource_not_found_page_path: str) -> str:
         self.root = root
-        self.default_page = default_page
+        self.default_page_path = default_page_path
         self.server_state = server_state
-        self.maintenance_page = maintenance_page
-        self.resource_not_found_page = resource_not_found_page
+        self.maintenance_page_path = maintenance_page_path
+        self.resource_not_found_page_path = resource_not_found_page_path
 
     def get_resource_path(self, resource):
         if resource[0] == "/":
@@ -18,12 +18,12 @@ class Filesystem:
         if self.server_state == State.RUNNING:
             return self.__get_resource_path_server_running(path_to_resource)
         elif self.server_state == State.MAINTENANCE:
-            return os.path.join(self.root, self.maintenance_page)
+            return self.maintenance_page_path
 
     def __get_resource_path_server_running(self, path_to_resource) -> str:
         if path_to_resource == self.root:
-            return os.path.abspath(os.path.join(self.root, self.default_page))
+            return self.default_page_path
         if os.path.isfile(path_to_resource):
             return path_to_resource
         else:
-            return os.path.join(self.root, self.resource_not_found_page)
+            return self.resource_not_found_page_path
