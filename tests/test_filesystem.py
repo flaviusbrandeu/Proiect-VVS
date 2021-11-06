@@ -1,6 +1,7 @@
 from unittest.mock import patch
 from src.webserver.webserver import State
 from src.filesystem.filesystem import Filesystem
+import os.path
 import pytest
 
 root_dir = "/webserver/root/folder/"
@@ -47,3 +48,14 @@ class TestFilesystem:
                                 maintenance_page_path, resource_not_found_page_path)
         path_to_resource = filesystem.get_resource_path("/a/b/c.html")
         assert path_to_resource == maintenance_page_path
+
+    def test_get_resource_containing_url_encoding(self):
+        filesystem = Filesystem(root_dir, default_page_path, State.MAINTENANCE,
+                                maintenance_page_path, resource_not_found_page_path)
+        res_with_spaces_path = filesystem.get_resource_path(
+            "/resource%20with%20spaces.html")
+        res_with_angular_bkt_path = filesystem.get_resource_path(
+            "/resource%3Cwith%3Cangular%3Ebrackets")
+        assert res_with_spaces_path == os.path.join(root_dir, "resource with spaces.html")
+        assert res_with_angular_bkt_path == os.path.join(root_dir,
+                                                         "resource<with<angular>brackets")
