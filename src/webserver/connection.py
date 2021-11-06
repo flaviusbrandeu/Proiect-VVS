@@ -19,10 +19,6 @@ class Connection:
         # TODO: implement __get_request_header
         pass
 
-    def __get_requested_resource_path(self, header: str) -> str:
-        # TODO: implement __get_requested_resource_path
-        pass
-
     def __send_response(self):
         # TODO: implement __send_response
         pass
