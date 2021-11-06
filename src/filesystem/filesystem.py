@@ -12,14 +12,18 @@ class Filesystem:
         self.resource_not_found_page = resource_not_found_page
 
     def get_resource_path(self, resource):
+        if resource[0] == "/":
+            resource = resource[1:]
         path_to_resource = os.path.join(self.root, resource)
         if self.server_state == State.RUNNING:
             return self.__get_resource_path_server_running(path_to_resource)
         elif self.server_state == State.MAINTENANCE:
-            return self.maintenance_page
+            return os.path.join(self.root, self.maintenance_page)
 
     def __get_resource_path_server_running(self, path_to_resource) -> str:
+        if path_to_resource == self.root:
+            return os.path.abspath(os.path.join(self.root, self.default_page))
         if os.path.isfile(path_to_resource):
             return path_to_resource
         else:
-            return self.resource_not_found_page
+            return os.path.join(self.root, self.resource_not_found_page)
