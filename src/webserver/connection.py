@@ -15,8 +15,12 @@ class Connection:
     def handle_request(self):
         raise NotImplementedError()
 
-    def __get_request_header(self):
+    def __get_request_header(self) -> str:
         # TODO: implement __get_request_header
+        pass
+
+    def __extract_requested_resource(self, header: str) -> str:
+        # TODO: implement __get_requested_resource
         pass
 
     def __send_response(self):
