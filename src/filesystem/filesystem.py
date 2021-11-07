@@ -1,5 +1,6 @@
 import os.path
 from src.webserver.webserver import State
+import urllib.parse
 
 
 class Filesystem:
@@ -12,9 +13,10 @@ class Filesystem:
         self.resource_not_found_page_path = resource_not_found_page_path
 
     def get_resource_path(self, resource):
-        if resource[0] == "/":
-            resource = resource[1:]
-        path_to_resource = os.path.join(self.root, resource)
+        resource_unquoted = urllib.parse.unquote(resource)
+        if resource_unquoted[0] == "/":
+            resource_unquoted = resource_unquoted[1:]
+        path_to_resource = os.path.join(self.root, resource_unquoted)
         if self.server_state == State.RUNNING:
             return self.__get_resource_path_server_running(path_to_resource)
         elif self.server_state == State.MAINTENANCE:
