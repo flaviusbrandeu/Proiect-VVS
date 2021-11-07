@@ -96,8 +96,7 @@ class TestConnection:
     def test_handle_request_resource_found(self, m_get_resource_path, m_open, f_connection_server_running):
         m_get_resource_path.return_value = os.path.join(root_dir, "a/b/c.html")
         f_connection_server_running.handle_request()
-        page_without_whitespaces = "".join(html_content.split())
-        expected_response = f"HTTP/1.1 200 OK\n\n{page_without_whitespaces}".encode("ISO-8859-1")
+        expected_response = f"HTTP/1.1 200 OK\n\n{html_content}".encode("ISO-8859-1")
         f_connection_server_running.socket_connection.sendall.assert_called_with(expected_response)
         f_connection_server_running.socket_connection.close.assert_called()
 
@@ -106,8 +105,7 @@ class TestConnection:
     def test_handle_request_resource_not_found(self, m_get_resource_path, m_open, f_connection_server_running):
         m_get_resource_path.return_value = resource_not_found_page_path
         f_connection_server_running.handle_request()
-        page_without_whitespaces = "".join(resource_not_found_html_content.split())
-        expected_response = f"HTTP/1.1 404 Not Found\n\n{page_without_whitespaces}".encode("ISO-8859-1")
+        expected_response = f"HTTP/1.1 404 Not Found\n\n{resource_not_found_html_content}".encode("ISO-8859-1")
         f_connection_server_running.socket_connection.sendall.assert_called_with(expected_response)
         f_connection_server_running.socket_connection.close.assert_called()
 
@@ -116,12 +114,11 @@ class TestConnection:
     def test_handle_request_server_maintenance(self, m_get_resource_path, m_open, f_connection_server_maintenance):
         m_get_resource_path.return_value = maintenance_page_path
         f_connection_server_maintenance.handle_request()
-        page_without_whitespaces = "".join(maintenance_html_content.split())
-        expected_response = f"HTTP/1.1 503 Service Unavailable\n\n{page_without_whitespaces}".encode("ISO-8859-1")
+        expected_response = f"HTTP/1.1 503 Service Unavailable\n\n{maintenance_html_content}".encode("ISO-8859-1")
         f_connection_server_maintenance.socket_connection.sendall.assert_called_with(expected_response)
         f_connection_server_running.socket_connection.close.assert_called()
 
-    @patch('builtins.open', new_callable=mock_open, read_data=maintenance_html_content)
+    @patch('builtins.open', new_callable=mock_open, read_data=html_content)
     @patch("src.filesystem.filesystem.Filesystem.get_resource_path")
     def test_connection_close_when_response_fail(self, m_get_resource_path, m_open, f_connection_server_running):
         m_get_resource_path.return_value = os.path.join(root_dir, "a/b/c.html")
@@ -135,8 +132,7 @@ class TestConnection:
         m_open.side_effect = OSError()
         m_get_resource_path.return_value = os.path.join(root_dir, "a/b/c/d.html")
         f_connection_server_running.handle_request()
-        page_without_whitespaces = "".join(resource_not_found_html_content.split())
-        expected_response = f"HTTP/1.1 404 Not Found\n\n{page_without_whitespaces}".encode("ISO-8859-1")
+        expected_response = f"HTTP/1.1 404 Not Found\n\n{resource_not_found_html_content}".encode("ISO-8859-1")
         f_connection_server_running.socket_connection.sendall.assert_called_with(expected_response)
         f_connection_server_running.socket_connection.close.assert_called()
 
