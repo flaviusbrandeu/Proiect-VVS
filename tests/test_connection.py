@@ -97,7 +97,7 @@ class TestConnection:
         m_get_resource_path.return_value = os.path.join(root_dir, "a/b/c.html")
         f_connection_server_running.handle_request()
         page_without_whitespaces = "".join(html_content.split())
-        expected_response = f"HTTP/1.1 200 OK\n\n{page_without_whitespaces}"
+        expected_response = f"HTTP/1.1 200 OK\n\n{page_without_whitespaces}".encode("ISO-8859-1")
         f_connection_server_running.socket_connection.sendall.assert_called_with(expected_response)
         f_connection_server_running.socket_connection.close.assert_called()
 
@@ -107,7 +107,7 @@ class TestConnection:
         m_get_resource_path.return_value = resource_not_found_page_path
         f_connection_server_running.handle_request()
         page_without_whitespaces = "".join(resource_not_found_html_content.split())
-        expected_response = f"HTTP/1.1 404 Not Found\n\n{page_without_whitespaces}"
+        expected_response = f"HTTP/1.1 404 Not Found\n\n{page_without_whitespaces}".encode("ISO-8859-1")
         f_connection_server_running.socket_connection.sendall.assert_called_with(expected_response)
         f_connection_server_running.socket_connection.close.assert_called()
 
@@ -117,7 +117,7 @@ class TestConnection:
         m_get_resource_path.return_value = maintenance_page_path
         f_connection_server_maintenance.handle_request()
         page_without_whitespaces = "".join(maintenance_html_content.split())
-        expected_response = f"HTTP/1.1 503 Service Unavailable\n\n{page_without_whitespaces}"
+        expected_response = f"HTTP/1.1 503 Service Unavailable\n\n{page_without_whitespaces}".encode("ISO-8859-1")
         f_connection_server_maintenance.socket_connection.sendall.assert_called_with(expected_response)
         f_connection_server_running.socket_connection.close.assert_called()
 
@@ -136,7 +136,7 @@ class TestConnection:
         m_get_resource_path.return_value = os.path.join(root_dir, "a/b/c/d.html")
         f_connection_server_running.handle_request()
         page_without_whitespaces = "".join(resource_not_found_html_content.split())
-        expected_response = f"HTTP/1.1 404 Not Found\n\n{page_without_whitespaces}"
+        expected_response = f"HTTP/1.1 404 Not Found\n\n{page_without_whitespaces}".encode("ISO-8859-1")
         f_connection_server_running.socket_connection.sendall.assert_called_with(expected_response)
         f_connection_server_running.socket_connection.close.assert_called()
 
