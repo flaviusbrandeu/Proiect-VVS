@@ -83,6 +83,7 @@ def f_connection_server_maintenance():
     m_socket_connection = Mock()
     m_socket_connection.recv.return_value = request
     m_socket_connection.sendall = Mock()
+    m_socket_connection.close = Mock()
     connection = Connection(m_socket_connection, root_dir, State.MAINTENANCE,
                             default_page_path, resource_not_found_page_path, maintenance_page_path)
     return connection
@@ -97,6 +98,7 @@ class TestConnection:
         page_without_whitespaces = "".join(html_content.split())
         expected_response = f"HTTP/1.1 200 OK\n\n{page_without_whitespaces}"
         f_connection_server_running.socket_connection.sendall.assert_called_with(expected_response)
+        f_connection_server_running.socket_connection.close.assert_called()
 
     @patch("builtins.open", new_callable=mock_open, read_data=resource_not_found_html_content)
     @patch("src.filesystem.filesystem.Filesystem.get_resource_path")
@@ -106,6 +108,7 @@ class TestConnection:
         page_without_whitespaces = "".join(resource_not_found_html_content.split())
         expected_response = f"HTTP/1.1 404 Not Found\n\n{page_without_whitespaces}"
         f_connection_server_running.socket_connection.sendall.assert_called_with(expected_response)
+        f_connection_server_running.socket_connection.close.assert_called()
 
     @patch('builtins.open', new_callable=mock_open, read_data=maintenance_html_content)
     @patch("src.filesystem.filesystem.Filesystem.get_resource_path")
@@ -115,3 +118,4 @@ class TestConnection:
         page_without_whitespaces = "".join(maintenance_html_content.split())
         expected_response = f"HTTP/1.1 503 Service Unavailable\n\n{page_without_whitespaces}"
         f_connection_server_maintenance.socket_connection.sendall.assert_called_with(expected_response)
+        f_connection_server_running.socket_connection.close.assert_called()
