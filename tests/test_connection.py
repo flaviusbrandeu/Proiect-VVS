@@ -2,6 +2,7 @@ import pytest
 from unittest.mock import Mock, patch, mock_open
 from src.webserver.connection import Connection
 from src.webserver.webserver import State
+import socket
 import os.path
 
 html_content = '''
@@ -119,3 +120,23 @@ class TestConnection:
         expected_response = f"HTTP/1.1 503 Service Unavailable\n\n{page_without_whitespaces}"
         f_connection_server_maintenance.socket_connection.sendall.assert_called_with(expected_response)
         f_connection_server_running.socket_connection.close.assert_called()
+
+    @patch('builtins.open', new_callable=mock_open, read_data=maintenance_html_content)
+    @patch("src.filesystem.filesystem.Filesystem.get_resource_path")
+    def test_connection_close_when_response_fail(self, m_get_resource_path, m_open, f_connection_server_running):
+        m_get_resource_path.return_value = os.path.join(root_dir, "a/b/c.html")
+        f_connection_server_running.socket_connection.sendall.side_effect = socket.error()
+        f_connection_server_running.handle_request()
+        f_connection_server_running.socket_connection.close.assert_called()
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch("src.filesystem.filesystem.Filesystem.get_resource_path")
+    def test_file_not_readable(self, m_get_resource_path, m_open, f_connection_server_running):
+        m_open.side_effect = OSError()
+        m_get_resource_path.return_value = os.path.join(root_dir, "a/b/c/d.html")
+        f_connection_server_running.handle_request()
+        page_without_whitespaces = "".join(resource_not_found_html_content.split())
+        expected_response = f"HTTP/1.1 404 Not Found\n\n{page_without_whitespaces}"
+        f_connection_server_running.socket_connection.sendall.assert_called_with(expected_response)
+        f_connection_server_running.socket_connection.close.assert_called()
+
