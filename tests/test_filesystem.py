@@ -25,7 +25,7 @@ class TestFilesystem:
         filesystem = Filesystem(root_dir, default_page_path, State.RUNNING,
                                 maintenance_page_path, resource_not_found_page_path)
         path_to_resource = filesystem.get_resource_path("/a/b/c.html")
-        assert path_to_resource == "/webserver/root/folder/a/b/c.html"
+        assert path_to_resource == os.path.join(root_dir, "a/b/c.html")
 
     @patch('os.path.isfile')
     def test_get_resource_first_level(self, m_isfile):
@@ -33,7 +33,7 @@ class TestFilesystem:
         filesystem = Filesystem(root_dir, default_page_path, State.RUNNING,
                                 maintenance_page_path, resource_not_found_page_path)
         path_to_resource = filesystem.get_resource_path("/a.html")
-        assert path_to_resource == "/webserver/root/folder/a.html"
+        assert path_to_resource == os.path.join(root_dir, "a.html")
 
     @patch('os.path.isfile')
     def test_get_resource_not_found(self, m_isfile):
