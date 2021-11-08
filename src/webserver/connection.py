@@ -1,5 +1,10 @@
-import os
-from src.webserver.webserver import State
+import urllib.parse
+
+import socket
+from src.webserver.state import State
+from src.filesystem.filesystem import Filesystem
+
+MAX_REQUEST_LENGTH = 8192
 
 
 class Connection:

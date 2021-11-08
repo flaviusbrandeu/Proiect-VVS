@@ -1,5 +1,5 @@
 import os.path
-from src.webserver.webserver import State
+from src.webserver.state import State
 import urllib.parse
 
 
