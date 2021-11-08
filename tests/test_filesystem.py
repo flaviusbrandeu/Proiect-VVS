@@ -49,8 +49,10 @@ class TestFilesystem:
         path_to_resource = filesystem.get_resource_path("/a/b/c.html")
         assert path_to_resource == maintenance_page_path
 
-    def test_get_resource_containing_url_encoding(self):
-        filesystem = Filesystem(root_dir, default_page_path, State.MAINTENANCE,
+    @patch('os.path.isfile')
+    def test_get_resource_containing_url_encoding(self, m_isfile):
+        m_isfile.return_value = True
+        filesystem = Filesystem(root_dir, default_page_path, State.RUNNING,
                                 maintenance_page_path, resource_not_found_page_path)
         res_with_spaces_path = filesystem.get_resource_path(
             "/resource%20with%20spaces.html")
