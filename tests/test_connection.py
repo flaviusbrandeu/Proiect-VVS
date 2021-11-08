@@ -123,9 +123,9 @@ class TestConnection:
         expected_header = b"HTTP/1.1 503 Service Unavailable\r\n\r\n"
         expected_calls = [call(expected_header), call(bin_maintenance_html_content),
                           call(b'\r\n\r\n')]
-        f_connection_server_running.socket_connection.sendall.assert_has_calls(expected_calls,
-                                                                               any_order=False)
-        f_connection_server_running.socket_connection.close.assert_called()
+        f_connection_server_maintenance.socket_connection.sendall.assert_has_calls(expected_calls,
+                                                                                   any_order=False)
+        f_connection_server_maintenance.socket_connection.close.assert_called()
 
     @patch('builtins.open', new_callable=mock_open, read_data=bin_html_content)
     @patch("src.filesystem.filesystem.Filesystem.get_resource_path")
