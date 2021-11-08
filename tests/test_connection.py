@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import Mock, patch, mock_open, call, DEFAULT
 from src.webserver.connection import Connection
-from src.webserver.webserver import State
+from src.webserver.state import State
 import socket
 import os.path
 
