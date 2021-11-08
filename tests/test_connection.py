@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import Mock, patch, mock_open, call
+from unittest.mock import Mock, patch, mock_open, call, DEFAULT
 from src.webserver.connection import Connection
 from src.webserver.webserver import State
 import socket
@@ -139,7 +139,7 @@ class TestConnection:
            read_data=bin_resource_not_found_html_content)
     @patch("src.filesystem.filesystem.Filesystem.get_resource_path")
     def test_file_not_readable(self, m_get_resource_path, m_open, f_connection_server_running):
-        m_open.side_effect = OSError()
+        m_open.side_effect = [OSError(), DEFAULT]
         m_get_resource_path.return_value = os.path.join(root_dir, "a/b/c/d.html")
         f_connection_server_running.handle_request()
         expected_header = b"HTTP/1.1 404 Not Found\r\n\r\n"
