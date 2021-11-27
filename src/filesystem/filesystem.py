@@ -5,14 +5,14 @@ import urllib.parse
 
 class Filesystem:
     def __init__(self, root: str, default_page_path: str, server_state: State, maintenance_page_path: str,
-                 resource_not_found_page_path: str) -> str:
+                 resource_not_found_page_path: str):
         self.root = root
         self.default_page_path = default_page_path
         self.server_state = server_state
         self.maintenance_page_path = maintenance_page_path
         self.resource_not_found_page_path = resource_not_found_page_path
 
-    def get_resource_path(self, resource):
+    def get_resource_path(self, resource) -> str:
         resource_unquoted = urllib.parse.unquote(resource)
         if resource_unquoted[0] == "/":
             resource_unquoted = resource_unquoted[1:]

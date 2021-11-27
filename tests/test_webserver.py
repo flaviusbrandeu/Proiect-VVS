@@ -1,9 +1,7 @@
-import pytest
-from unittest.mock import Mock, patch, mock_open, call, DEFAULT
-from src.webserver.webserver import Webserver
+from unittest.mock import Mock, patch
+
 from src.webserver.state import State
-import socket
-import os.path
+from src.webserver.webserver import Webserver
 
 root_dir = "/home/user/website/www-root/"
 default_page_path = "/home/user/website/www-root/index.html"

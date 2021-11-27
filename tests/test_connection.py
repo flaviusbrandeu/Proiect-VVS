@@ -5,6 +5,7 @@ from src.webserver.state import State
 import socket
 import os.path
 
+# noinspection SpellCheckingInspection,SpellCheckingInspection,SpellCheckingInspection
 bin_html_content = b'''
     <html>
      <head>
@@ -18,6 +19,7 @@ bin_html_content = b'''
     </html>
     '''
 
+# noinspection SpellCheckingInspection,SpellCheckingInspection,SpellCheckingInspection
 bin_maintenance_html_content = b'''
     <html>
      <head>
@@ -31,6 +33,7 @@ bin_maintenance_html_content = b'''
     </html>
     '''
 
+# noinspection SpellCheckingInspection,SpellCheckingInspection,SpellCheckingInspection
 bin_resource_not_found_html_content = b'''
     <html>
      <head>
@@ -44,6 +47,7 @@ bin_resource_not_found_html_content = b'''
     </html>
     '''
 
+# noinspection SpellCheckingInspection
 request = b'GET /a/b/c.html HTTP/1.1\r\n' \
           b'Host: localhost:8080\r\n' \
           b'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0\r\n' \
@@ -91,6 +95,7 @@ def f_connection_server_maintenance():
 
 
 class TestConnection:
+    # noinspection PyUnusedLocal
     @patch("builtins.open", new_callable=mock_open, read_data=bin_html_content)
     @patch("src.filesystem.filesystem.Filesystem.get_resource_path")
     def test_handle_request_resource_found(self, m_get_resource_path, m_open, f_connection_server_running):
@@ -103,6 +108,7 @@ class TestConnection:
                                                                                any_order=False)
         f_connection_server_running.socket_connection.close.assert_called()
 
+    # noinspection PyUnusedLocal
     @patch("builtins.open", new_callable=mock_open, read_data=bin_resource_not_found_html_content)
     @patch("src.filesystem.filesystem.Filesystem.get_resource_path")
     def test_handle_request_resource_not_found(self, m_get_resource_path, m_open, f_connection_server_running):
@@ -115,6 +121,7 @@ class TestConnection:
                                                                                any_order=False)
         f_connection_server_running.socket_connection.close.assert_called()
 
+    # noinspection PyUnusedLocal
     @patch('builtins.open', new_callable=mock_open, read_data=bin_maintenance_html_content)
     @patch("src.filesystem.filesystem.Filesystem.get_resource_path")
     def test_handle_request_server_maintenance(self, m_get_resource_path, m_open, f_connection_server_maintenance):
@@ -127,6 +134,7 @@ class TestConnection:
                                                                                    any_order=False)
         f_connection_server_maintenance.socket_connection.close.assert_called()
 
+    # noinspection PyUnusedLocal
     @patch('builtins.open', new_callable=mock_open, read_data=bin_html_content)
     @patch("src.filesystem.filesystem.Filesystem.get_resource_path")
     def test_connection_close_when_response_fail(self, m_get_resource_path, m_open, f_connection_server_running):

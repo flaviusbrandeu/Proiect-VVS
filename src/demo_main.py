@@ -1,7 +1,7 @@
-import os.path
 from src.webserver.webserver import Webserver
 
 
+# noinspection SpellCheckingInspection
 def main():
     webserver = Webserver(8081, '/mnt/nvme0n1p6/Facultate/VVS/laborator/TestSite/',
                           '/mnt/nvme0n1p6/Facultate/VVS/laborator/TestSite/index.html',
